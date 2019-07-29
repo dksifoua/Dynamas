@@ -5,10 +5,10 @@ def get_batch(n, nb_col):
     return n * nb_col
 
 def to_datetime(timestamp):
-    return pd.to_datetime(timestamp, unit='ms').tz_localize('UTC').tz_convert('America/New_York')
+    return pd.to_datetime(timestamp, unit='ms').tz_localize('UTC').tz_convert('US/Eastern')
 
 def to_timestamp(datetime):
-    timestamp = lambda x: pd.Timestamp(x, tz='America/New_York')
+    timestamp = lambda x: pd.Timestamp(x, tz='US/Eastern')
     if isinstance(datetime, str):
         datetime = timestamp(datetime)
     return int(datetime.timestamp() * 1000)
@@ -42,6 +42,7 @@ def extract_json(json_data):
     
     data['key'] = ks
     data['timestamp'] = ts
+    data = data.sort_values(by=['timestamp'])
     
     return data
 
